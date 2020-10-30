@@ -1,0 +1,27 @@
+.home-container {
+    text-align: center;
+    justify-content: center;
+}
+
+
+.zavezanci-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.zavezanci-box {
+    width: 75%;
+    padding: 0 3vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.zavezanec-card {
+    margin: 1vh 1vh;
+}

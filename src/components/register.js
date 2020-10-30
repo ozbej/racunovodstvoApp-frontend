@@ -1,96 +1,145 @@
 import React from 'react';
 import Axios from 'axios';
+import { withRouter } from "react-router-dom";
+import { Form, Input, Button, Divider } from 'antd';
+import Navigation from './navigation'
+import '../styles/login.css'
 
-export default class Register extends React.Component {
+import { Typography } from 'antd';
+const { Title, Link } = Typography;
+
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+};
+
+const tailLayout = {
+wrapperCol: { offset: 8, span: 16 },
+};
+
+class Register extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            name: '',
-            lastName: '',
-            email: '',
-            telSt: '',
-            password: '',
-            title: '',
-            davcnaSt: '',
-            trr: '',
-            maticnaSt: '',
-        }
     }
 
-    handleChange = (event) => {
-        event.preventDefault();
-        this.setState({
-          [event.target.name]: event.target.value
-        });
-    }
-
-    register = () => {
+    register = values => {
         Axios.post('http://localhost:3001/api/register', {
-            name: this.state.name,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            telSt: this.state.telSt,
-            password: this.state.password,
-            title: this.state.title,
-            davcnaSt: this.state.davcnaSt,
-            trr: this.state.trr,
-            maticnaSt: this.state.maticnaSt,
+            name: values.name,
+            lastName: values.lastName,
+            email: values.email,
+            telSt: values.telSt,
+            password: values.password,
+            title: values.title,
+            davcnaSt: values.davcnaSt,
+            trr: values.trr,
+            maticnaSt: values.maticnaSt,
         }).then((response) => {
             console.log(response);
         });
     }
 
     render() {
+        if ((localStorage.getItem("racunovodstvoId") != null)) return <Title level={2}>Ste že prijavljeni. Nazaj <Link href="/">domov</Link>.</Title>
         return (
-            <div className="base-container" ref={this.props.containerRef}>
-                <div className="header">Registracija</div>
-                <div className="content">
-                    <div className="form">
-                        <div className="form-group">
-                            <label htmlFor="name">Ime lastnika</label>
-                            <input type="text" name="name" placeholder="Ime lastnika" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="lastName">Priimek lastnika</label>
-                            <input type="text" name="lastName" placeholder="Priimek lastnika" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email lastnika</label>
-                            <input type="text" name="email" placeholder="E-mail" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="telSt">Telefonska številka lastnika</label>
-                            <input type="text" name="telSt" placeholder="Telefonska številka" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Geslo</label>
-                            <input type="password" name="password" placeholder="Geslo" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="title">Naziv računovodstva</label>
-                            <input type="text" name="title" placeholder="Naziv računovodstva" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="davcnaSt">Davčna številka</label>
-                            <input type="text" name="davcnaSt" placeholder="Davčna številka" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="trr">TRR</label>
-                            <input type="text" name="trr" placeholder="TRR" onChange={this.handleChange} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="maticnaSt">Matična številka</label>
-                            <input type="text" name="maticnaSt" placeholder="Matična številka" onChange={this.handleChange} />
-                        </div>
+            <div>
+                <Navigation />
+                <div className="login-container">
+                    <p style={{marginTop: '5vh'}}>
+                        <Title>Registracija</Title>
+                    </p>
+                    <div className="login-form">
+                        <Form
+                        {...layout}
+                        name="basic"
+                        onFinish={this.register}
+                        initialValues={{ remember: true }}
+                        >
+                            <Form.Item
+                            label="Ime lastnika"
+                            name="name"
+                            rules={[{ required: true, message: 'Vnesite ime lastnika!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+                    
+                            <Form.Item
+                            label="Priimek lastnika"
+                            name="lastName"
+                            rules={[{ required: true, message: 'Vnesite priimek lastnika!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Email lastnika"
+                            name="email"
+                            rules={[{ required: true, message: 'Vnesite email lastnika!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Telefonska številka lastnika"
+                            name="telSt"
+                            rules={[{ required: true, message: 'Vnesite telefonsko številko lastnika!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Geslo"
+                            name="password"
+                            rules={[{ required: true, message: 'Vnesite geslo!' }]}
+                            >
+                            <Input.Password />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Naziv računovodstva"
+                            name="title"
+                            rules={[{ required: true, message: 'Vnesite naziv računovodstva!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Davčna številka"
+                            name="davcnaSt"
+                            rules={[{ required: true, message: 'Vnesite davčno številko!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="TRR"
+                            name="trr"
+                            rules={[{ required: true, message: 'Vnesite TRR!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                            label="Matična številka"
+                            name="maticnaSt"
+                            rules={[{ required: true, message: 'Vnesite matično številko!' }]}
+                            >
+                            <Input />
+                            </Form.Item>
+                    
+                            <Form.Item {...tailLayout}>
+                            <Button type="primary" htmlType="submit">
+                                Registracija
+                            </Button>
+                            </Form.Item>
+                        </Form>
                     </div>
-                </div>
-                <div className="footer">
-                    <button type="button" className="btn" onClick={this.register}>Registracija</button>
+                    <Divider />
+                    <p>Že imate račun? Prijavite se <Link href='/login'>tukaj</Link>.</p>
                 </div>
             </div>
         )
     }
-
 }
+
+export default withRouter(Register);
